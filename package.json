@@ -11,12 +11,16 @@
     "prisma:seed": "node prisma/seed.js",
     "prisma:studio": "prisma studio"
   },
-  "keywords": ["ecommerce", "boutique", "api"],
+  "keywords": [
+    "ecommerce",
+    "boutique",
+    "api"
+  ],
   "author": "Kingsy",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "@prisma/client": "^7.1.0",
+    "@prisma/client": "^6.19.1",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.8.0",
     "cors": "^2.8.5",
@@ -32,7 +36,7 @@
     "passport": "^0.7.0",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
-    "prisma": "^7.1.0",
+    "prisma": "^6.19.1",
     "stripe": "^20.0.0"
   },
   "devDependencies": {
