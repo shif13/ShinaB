@@ -56,8 +56,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/payment', paymentRoutes);
 
-// 404 handler
-app.use('*', (req, res) => {
+// 404 handler - Fixed to work with newer path-to-regexp versions
+app.use((req, res) => {
   res.status(404).json({ 
     success: false, 
     message: 'Route not found' 
