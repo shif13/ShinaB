@@ -103,10 +103,39 @@ const createProduct = async (req, res, next) => {
     if (req.files && req.files.length > 0) {
       for (const file of req.files) {
         const result = await uploadToCloudinary(
-  file.buffer, 
-  'shina-boutique/products'
-);
+          file.buffer, 
+          'shina-boutique/products'
+        );
         imageUrls.push(result.url);
+      }
+    }
+
+    // Parse arrays if they're strings (from FormData)
+    let parsedSizes = sizes;
+    let parsedColors = colors;
+    let parsedTags = tags;
+
+    if (typeof sizes === 'string') {
+      try {
+        parsedSizes = JSON.parse(sizes);
+      } catch (e) {
+        parsedSizes = sizes.split(',').map(s => s.trim()).filter(Boolean);
+      }
+    }
+
+    if (typeof colors === 'string') {
+      try {
+        parsedColors = JSON.parse(colors);
+      } catch (e) {
+        parsedColors = colors.split(',').map(c => c.trim()).filter(Boolean);
+      }
+    }
+
+    if (typeof tags === 'string') {
+      try {
+        parsedTags = JSON.parse(tags);
+      } catch (e) {
+        parsedTags = tags.split(',').map(t => t.trim()).filter(Boolean);
       }
     }
 
@@ -119,13 +148,13 @@ const createProduct = async (req, res, next) => {
         price: parseFloat(price),
         compareAtPrice: compareAtPrice ? parseFloat(compareAtPrice) : null,
         images: imageUrls,
-        sizes: sizes || [],
-        colors: colors || [],
+        sizes: parsedSizes || [],
+        colors: parsedColors || [],
         stock: parseInt(stock),
         sku,
         slug,
-        featured: featured === 'true',
-        tags: tags || []
+        featured: featured === 'true' || featured === true,
+        tags: parsedTags || []
       }
     });
 

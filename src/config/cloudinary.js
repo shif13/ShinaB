@@ -6,11 +6,14 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
-const uploadToCloudinary = async (file, folder = 'shina-boutique') => {
+const uploadToCloudinary = async (fileBuffer, folder = 'shina-boutique') => {
   try {
-    const result = await cloudinary.uploader.upload(file, {
+    // Convert buffer to base64 data URI
+    const base64String = fileBuffer.toString('base64');
+    const dataURI = `data:image/png;base64,${base64String}`;
+    
+    const result = await cloudinary.uploader.upload(dataURI, {
       folder: folder,
-      upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET, // Add this line
       resource_type: 'auto',
       transformation: [
         { width: 1000, height: 1000, crop: 'limit' },
@@ -24,6 +27,7 @@ const uploadToCloudinary = async (file, folder = 'shina-boutique') => {
       publicId: result.public_id
     };
   } catch (error) {
+    console.error('Cloudinary upload error:', error);
     throw new Error(`Cloudinary upload failed: ${error.message}`);
   }
 };
@@ -32,6 +36,7 @@ const deleteFromCloudinary = async (publicId) => {
   try {
     await cloudinary.uploader.destroy(publicId);
   } catch (error) {
+    console.error('Cloudinary delete error:', error);
     throw new Error(`Cloudinary delete failed: ${error.message}`);
   }
 };
