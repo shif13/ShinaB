@@ -103,9 +103,9 @@ const createProduct = async (req, res, next) => {
     if (req.files && req.files.length > 0) {
       for (const file of req.files) {
         const result = await uploadToCloudinary(
-          file.buffer.toString('base64'),
-          'shina-boutique/products'
-        );
+  file.buffer, 
+  'shina-boutique/products'
+);
         imageUrls.push(result.url);
       }
     }
@@ -164,9 +164,9 @@ const updateProduct = async (req, res, next) => {
       const newImageUrls = [];
       for (const file of req.files) {
         const result = await uploadToCloudinary(
-          file.buffer.toString('base64'),
-          'shina-boutique/products'
-        );
+  file.buffer, 
+  'shina-boutique/products'
+);
         newImageUrls.push(result.url);
       }
       updateData.images = [...existingProduct.images, ...newImageUrls];

@@ -10,6 +10,7 @@ const uploadToCloudinary = async (file, folder = 'shina-boutique') => {
   try {
     const result = await cloudinary.uploader.upload(file, {
       folder: folder,
+      upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET, // Add this line
       resource_type: 'auto',
       transformation: [
         { width: 1000, height: 1000, crop: 'limit' },
